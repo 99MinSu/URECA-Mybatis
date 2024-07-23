@@ -40,7 +40,7 @@ public class BookManager extends JFrame {
     public BookManager() {
     	
     	SqlSessionFactory sqlSessionFactory = new MyBatisConfig().getSqlSessionFactoty();
-    	SqlSession session = sqlSessionFactory.openSession();
+    	SqlSession session = sqlSessionFactory.openSession(true); //true 로 넣으면 autocommit
     	bookDao = session.getMapper(BookDao.class);
     	
         setTitle("고객 및 주문 및 도서 관리");
@@ -172,6 +172,4 @@ public class BookManager extends JFrame {
             new BookManager().setVisible(true);
         });
     }
-
-
 }
