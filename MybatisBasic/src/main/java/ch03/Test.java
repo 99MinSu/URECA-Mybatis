@@ -1,31 +1,30 @@
-package ch01;
+package ch03;
 
-import java.io.Reader;
 import java.util.List;
 
-import org.apache.ibatis.io.Resources;
+
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import ch01.dao.BookDao;
-import ch01.dto.BookDto;
+import ch03.config.MyBatisConfig;
+import ch03.dao.BookDao;
+import ch03.dto.BookDto;
 
-// config : xml
-// sql(mapper) : xml
+// config : java
+// sql(mapper) : java
 public class Test {
 
 	public static void main(String[] args) throws Exception{
-		// Mybatis 설정 파일을 읽어 온다.
-		Reader reader = Resources.getResourceAsReader("config/mybatis-config.xml");
-		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+		// 자바 설정 이용
+		SqlSessionFactory sqlSessionFactory = new MyBatisConfig().getSqlSessionFactoty();
 		SqlSession session = sqlSessionFactory.openSession();
 		
 		// SQL(mapper) + Java
 		// Java 의 어떤 메소드(BookDao) 가 호출되면 mapper 의 어떤 sql 이 수행되는지 연결
 		BookDao bookDao = session.getMapper(BookDao.class);  // book-mapper.xml  과 BookDao 가 연결
 		
-		// 목록
+		//목록
 //		{
 //			List<BookDto> bookList = bookDao.listBook();
 //			for (BookDto bookDto : bookList) {
@@ -55,7 +54,7 @@ public class Test {
 //			session.commit();
 //		}
 		
-		// 삭제
+//		// 삭제
 		{
 			int ret = bookDao.deleteBook(11);
 			System.out.println(ret);
